@@ -89,7 +89,7 @@ public class MenuController {
     int num3=0;
     
 	public void initialize() {	
-		comboBox.setValue("피자선택");
+		comboBox.setValue("피자 선택");
 		comboBox.setItems(comboBoxList);	
 		comboBox2.setItems(comboBoxList2);
 		
@@ -265,9 +265,9 @@ public class MenuController {
     	num2=0;
     	num3=0;
     	
+    	comboBox2.setValue("피자 크기");
+    	comboBox.setValue("피자 선택");
     	ta.setText(""); 
-    	comboBox2.setValue("");
-    	comboBox.setValue("");
     	
     }
     @FXML
