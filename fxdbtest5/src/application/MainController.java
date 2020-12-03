@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
@@ -56,6 +57,9 @@ public class MainController {
     Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
+    
+	ResultSet srs;
+	Statement stmt=null;
     
     
     public void loginPaneShow() {
@@ -137,21 +141,20 @@ public class MainController {
 		}
     }
     
-    void test() throws SQLException {
-    	pst = conn.prepareStatement("select * from pizza_history");
-		rs = pst.executeQuery();
-		while(rs.next()) {
-			cnt++;
-		}
-    }
-    
+     
 	@FXML
 	private void initialize() {
 		conn = mysqlconnect.ConnectDb();
 		type_up.getItems().addAll("Client","Manage","Host","HeadQuarter");
 	//	type.getItems().addAll("Client","Manage","Host","HeadQuarter");
+	
+		// db°¹¼ö °è»ê
     	try {
-			test();
+    		stmt = conn.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
+    		srs = stmt.executeQuery("select * from buss");
+    		srs.last();
+    		cnt = srs.getRow();
+    		cnt++;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
