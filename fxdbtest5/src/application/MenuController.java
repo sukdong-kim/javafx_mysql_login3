@@ -17,6 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,6 +39,7 @@ public class MenuController {
     PreparedStatement pst = null;
     
     static int cnt=0;
+    Main main = new Main();
     
     String p_type,p_size;
     int p1,p2,p3;
@@ -64,26 +66,13 @@ public class MenuController {
 			FXCollections.observableArrayList("small size: 0¿ø","medium size: 1,500¿ø","large size: 3,000¿ø");
 	ObservableList<Pizza> list;
 	
-	@FXML
-	private TableView<Pizza> tableContent;
-	
-    @FXML
-    private TableColumn<Pizza, String> col_date;
-
-    @FXML
-    private TableColumn<Pizza, String> col_pizza;
-
-    @FXML
-    private TableColumn<Pizza, String> col_size;
-
-    @FXML
-    private TableColumn<Pizza, Integer> col_1;
-
-    @FXML
-    private TableColumn<Pizza, Integer> col_2;
-
-    @FXML
-    private TableColumn<Pizza, Integer> col_3;
+	@FXML	private TableView<Pizza> tableContent;
+    @FXML    private TableColumn<Pizza, String> col_date;
+    @FXML    private TableColumn<Pizza, String> col_pizza;
+    @FXML    private TableColumn<Pizza, String> col_size;
+    @FXML    private TableColumn<Pizza, Integer> col_1;
+    @FXML    private TableColumn<Pizza, Integer> col_2;
+    @FXML    private TableColumn<Pizza, Integer> col_3;
 	
     String sel1 = "";
     String sel2 = "";
@@ -102,6 +91,7 @@ public class MenuController {
 
     	DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
     	currentdate = format.format(Calendar.getInstance().getTime());
+		lbl_date.setText(currentdate);
 		list = FXCollections.observableArrayList();
     	petch();
     	try {
@@ -117,15 +107,13 @@ public class MenuController {
 		while(rs.next()) {
 			cnt++;
 		}
-		System.out.println("db count = "+ cnt);
     }
 	public void petch() {
     	try {
     		String sql = "select * from pizza_history where name =? and phone=?";
-     //   	String sql = "select * from pizza_history where name =?";
 			pst = conn.prepareStatement(sql);
-			pst.setString(1, "kim");
-			pst.setString(2, "123");
+			pst.setString(1, main.m_name);
+			pst.setString(2, main.m_phone);
 
 			rs = pst.executeQuery();
 			while(rs.next()) {		
@@ -227,9 +215,9 @@ public class MenuController {
 			pst = conn.prepareStatement(sql);
 			
 			pst.setInt(1, ++cnt);
-			pst.setString(2, "kim");
-			pst.setString(3, "123");
-			pst.setString(4, "1234567");
+			pst.setString(2, main.m_name);
+			pst.setString(3, main.m_phone);
+			pst.setString(4, main.m_address);
 			pst.setString(5, p_type);
 			pst.setString(6, p_size);
 			pst.setInt(7, p1);
@@ -292,6 +280,17 @@ public class MenuController {
     	}
     }
 
+    @FXML
+    void onClickb4(ActionEvent event) throws IOException {
+   // 	main.showMainView();
+    	main.checkDialogStage.close();
+		Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+		Stage mainStage = new Stage();
+		Scene scene = new Scene(root);
+		mainStage.setScene(scene);
+		mainStage.show();
+    }
+    
     @FXML
     void onClickch2(ActionEvent event) {
     	if(ch2.isSelected()) {

@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MenuController">
+<AnchorPane prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MenuController">
    <children>
       <AnchorPane layoutX="589.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="880.0" prefWidth="600.0" style="-fx-border-color: green; -fx-border-width: 3;">
          <children>
@@ -84,17 +84,22 @@
                   <Separator prefWidth="200.0" />
                   <HBox alignment="CENTER" prefHeight="27.0" prefWidth="600.0" spacing="30.0">
                      <children>
-                        <Button fx:id="b1" alignment="CENTER" mnemonicParsing="false" onAction="#onClickb1" prefHeight="22.0" prefWidth="200.0" text="계산" textFill="#0e3fe0">
+                        <Button fx:id="b1" alignment="CENTER" mnemonicParsing="false" onAction="#onClickb1" prefHeight="27.0" prefWidth="120.0" text="계산" textFill="#0e3fe0">
                            <font>
                               <Font name="Yj CHMSOOT Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="b2" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickb2" prefHeight="22.0" prefWidth="200.0" text="다시 계산" textFill="#0e3fe0">
+                        <Button fx:id="b2" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickb2" prefHeight="27.0" prefWidth="120.0" text="다시 계산" textFill="#0e3fe0">
                            <font>
                               <Font name="Yj CHMSOOT Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="b3" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickb3" prefHeight="22.0" prefWidth="200.0" style="-fx-background-color: red;" text="종료" textFill="#e2e5ee">
+                        <Button fx:id="b3" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickb3" prefHeight="27.0" prefWidth="120.0" style="-fx-background-color: red;" text="종료" textFill="#e2e5ee">
+                           <font>
+                              <Font name="Yj CHMSOOT Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="b31" layoutX="371.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickb4" prefHeight="27.0" prefWidth="120.0" style="-fx-background-color: brown;" text="Home" textFill="#eaebee">
                            <font>
                               <Font name="Yj CHMSOOT Bold" size="14.0" />
                            </font>
