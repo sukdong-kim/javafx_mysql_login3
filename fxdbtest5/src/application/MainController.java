@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.JOptionPane;
 
@@ -20,39 +23,19 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class MainController {
-	static int cnt=0;
+	int cnt=0;
 	Main main = new Main();
 
-    @FXML
-    private AnchorPane pane_login;
-
-    @FXML
-    private TextField txt_username;
-    
-    @FXML
-    private TextField txt_phone;
-
-    @FXML
-    private TextField txt_address;
-
-
-    @FXML
-    private TextField txt_phone_up;
-
-    @FXML
-    private TextField txt_address_up;
-
-    @FXML
-    private Button btn_login;
-
-    @FXML
-    private AnchorPane pane_signup;
-
-    @FXML
-    private TextField txt_username_up;
-
-    @FXML
-    private ComboBox<String> type_up;
+    @FXML    private AnchorPane pane_login;
+    @FXML    private TextField txt_username;  
+    @FXML    private TextField txt_phone;
+    @FXML    private TextField txt_address;
+    @FXML    private TextField txt_phone_up;
+    @FXML    private TextField txt_address_up;
+    @FXML    private Button btn_login;
+    @FXML    private AnchorPane pane_signup;
+    @FXML    private TextField txt_username_up;
+    @FXML    private ComboBox<String> type_up;
     
     Connection conn = null;
     ResultSet rs = null;
@@ -86,18 +69,14 @@ public class MainController {
     private void Login(ActionEvent event) throws Exception{
     	conn = mysqlconnect.ConnectDb();
     	String sql = "select * from pizza_history where name =? and phone=?";
-    	// combobox 
-    	// String sql = "select * from pizza_history where id =? and name=? and type =?";
     	
     	try {
 			pst = conn.prepareStatement(sql);
 			String r1,r2,r3;
 			r1 = txt_username.getText();
 			r2 = txt_phone.getText();
-	//		r3 = txt_address.getText();
 			pst.setString(1, r1);
 			pst.setString(2, r2);
-//			pst.setString(3, txt_phone.getText());
 			rs = pst.executeQuery();
 			
 			if(rs.next()) {
@@ -106,10 +85,9 @@ public class MainController {
 				main.m_phone = r2;
 				main.m_address = rs.getString("address");
 				
-				main.showMenuView();
 				main.stopMainView();
-				
-				
+				main.showMenuView();
+												
 			} else {
 				JOptionPane.showMessageDialog(null,"Invalid Username or Password");
 			}
@@ -122,7 +100,9 @@ public class MainController {
     
     public void add_users(ActionEvent event) {
     	conn = mysqlconnect.ConnectDb();
-    	String sql = "insert into pizza_history (id,name,phone,address) values (?,?,?,?)";
+    	DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+    	String currentdate = format.format(Calendar.getInstance().getTime());
+    	String sql = "insert into pizza_history (id,name,phone,address,date,pizza_type) values (?,?,?,?,?,?)";
     	try {
 			pst = conn.prepareStatement(sql);
 			
@@ -130,6 +110,8 @@ public class MainController {
 			pst.setString(2, txt_username_up.getText());
 			pst.setString(3, txt_phone_up.getText());
 			pst.setString(4, txt_address_up.getText());
+			pst.setString(5, currentdate);
+			pst.setString(6, "½Å±Ô°í°´");
 			
 			pst.execute();
 			JOptionPane.showMessageDialog(null,"Saved");
@@ -151,10 +133,10 @@ public class MainController {
 		// db°¹¼ö °è»ê
     	try {
     		stmt = conn.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-    		srs = stmt.executeQuery("select * from buss");
-    		srs.last();
-    		cnt = srs.getRow();
-    		cnt++;
+    		srs = stmt.executeQuery("select * from pizza_history");
+    		srs.last();  		
+    		cnt = srs.getInt("id");
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

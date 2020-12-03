@@ -23,6 +23,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -38,8 +39,12 @@ public class MenuController {
     ResultSet rs = null;
     PreparedStatement pst = null;
     
+	ResultSet srs=null;
+	Statement stmt=null;
+    
     static int cnt=0;
-    Main main = new Main();
+    
+    @FXML  Main main = new Main();
     
     String p_type,p_size;
     int p1,p2,p3;
@@ -52,6 +57,7 @@ public class MenuController {
     @FXML    private Button b1;
     @FXML    private Button b2;
     @FXML    private Button b3;
+    @FXML    private Button b4;
     @FXML    private TextArea ta; 
     @FXML    private Label lab;
     
@@ -93,22 +99,20 @@ public class MenuController {
     	currentdate = format.format(Calendar.getInstance().getTime());
 		lbl_date.setText(currentdate);
 		list = FXCollections.observableArrayList();
-    	petch();
+    	fetch();
+    	// 마지막 id값 찾음, cnt
     	try {
-			test();
+    		stmt = conn.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
+    		srs = stmt.executeQuery("select * from pizza_history");
+    		srs.last();
+    		cnt = srs.getInt("id");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-    void test() throws SQLException {
-    	pst = conn.prepareStatement("select * from pizza_history");
-		rs = pst.executeQuery();
-		while(rs.next()) {
-			cnt++;
-		}
-    }
-	public void petch() {
+
+	public void fetch() {
     	try {
     		String sql = "select * from pizza_history where name =? and phone=?";
 			pst = conn.prepareStatement(sql);
@@ -204,10 +208,16 @@ public class MenuController {
     	
     	if(ch1.isSelected())
     		p1=1;
+    	else 
+    		p1=0;
     	if(ch2.isSelected())
     		p2=1;
+    	else 
+    		p2=0;
     	if(ch3.isSelected())
     		p3=1;
+    	else 
+    		p3=0;
 
     	String sql = "insert into pizza_history (id,name,phone,address,pizza_type,pizza_size,add_1,add_2,add_3,date)"
     			+ " values (?,?,?,?,?,?,?,?,?,?)";
@@ -282,13 +292,16 @@ public class MenuController {
 
     @FXML
     void onClickb4(ActionEvent event) throws IOException {
-   // 	main.showMainView();
     	main.checkDialogStage.close();
-		Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+    	main.showMainView();
+   /*
+    * 		Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
 		Stage mainStage = new Stage();
 		Scene scene = new Scene(root);
 		mainStage.setScene(scene);
 		mainStage.show();
+    */	
+	 	
     }
     
     @FXML

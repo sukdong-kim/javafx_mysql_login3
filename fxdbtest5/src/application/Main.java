@@ -23,7 +23,7 @@ public class Main extends Application {
 	public void showMainView() {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
-			Scene scene = new Scene(root,600,400);
+			Scene scene = new Scene(root,610,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
